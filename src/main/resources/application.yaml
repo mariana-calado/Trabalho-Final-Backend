@@ -18,7 +18,7 @@ spring:
         enabled: false
       include-message: always
       include-binding-errors: always
-      include-stacktrace: always
+      include-stacktrace: never
       include-exception: true
 
 server:

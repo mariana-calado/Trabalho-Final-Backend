@@ -3,6 +3,7 @@ package br.pucpr.authserver.products
 import br.pucpr.authserver.categories.CategoryRepository
 import br.pucpr.authserver.exception.NotFoundException
 import br.pucpr.authserver.exceptions.BadRequestException
+import br.pucpr.authserver.orders.OrderRepository
 import br.pucpr.authserver.users.SortDir
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
@@ -13,7 +14,8 @@ import java.math.BigDecimal
 @Service
 class ProductService(
     val repository: ProductRepository,
-    val categoryRepository: CategoryRepository
+    val categoryRepository: CategoryRepository,
+    val orderRepository: OrderRepository
 ) {
     fun insert(name: String, price: BigDecimal, categoryId: Long): Product {
         val category = categoryRepository.findByIdOrNull(categoryId)
@@ -50,7 +52,11 @@ class ProductService(
     }
 
     fun delete(id: Long) {
-        repository.delete(findById(id))
+        val product = findById(id)
+        if (orderRepository.existsByProductsId(id)) {
+            throw BadRequestException("Cannot delete a product that is in an order")
+        }
+        repository.delete(product)
         log.info("Product $id deleted successfully")
     }
 
