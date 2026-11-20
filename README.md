@@ -11,7 +11,7 @@ O projeto estende o servidor de autenticação visto em aula (Kotlin, Spring Boo
 
 ## Vídeo
 
-Link do vídeo no YouTube: 
+Link do vídeo no YouTube: https://youtu.be/B8d3s4oKUpw
 
 ## Tecnologias
 
